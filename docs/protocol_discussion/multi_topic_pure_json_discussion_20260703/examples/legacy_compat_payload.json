@@ -1,0 +1,10 @@
+{
+  "schema": "emqx-gateway.command.v1",
+  "id": "legacy-20260703-0001",
+  "device_id": "GM400-452089",
+  "cmd": "legacy_frame",
+  "params": {
+    "payload": "FEA501000BFE010003FFFF502EFC45833F1E03D2",
+    "encoding": "hex"
+  }
+}

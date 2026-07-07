@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "${command:eide.project.build}",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "flash",
+            "type": "shell",
+            "command": "${command:eide.project.uploadToDevice}",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "build and flash",
+            "type": "shell",
+            "command": "${command:eide.project.buildAndFlash}",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "rebuild",
+            "type": "shell",
+            "command": "${command:eide.project.rebuild}",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "${command:eide.project.clean}",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "pyocd: list probes",
+            "type": "process",
+            "command": "C:/Users/96932/AppData/Local/Programs/Python/Python312/Scripts/pyocd.exe",
+            "args": [
+                "list",
+                "--probes"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "pyocd: flash mqttv5 hex",
+            "type": "process",
+            "command": "C:/Users/96932/AppData/Local/Programs/Python/Python312/Scripts/pyocd.exe",
+            "args": [
+                "load",
+                "--pack",
+                "${workspaceFolder}/../HDSC.HC32F460.1.0.12.pack",
+                "--target",
+                "hc32f460jeta",
+                "--frequency",
+                "1000000",
+                "--erase",
+                "sector",
+                "${workspaceFolder}/build/Debug/mqttv5.hex"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "pyocd: gdbserver",
+            "type": "process",
+            "command": "C:/Users/96932/AppData/Local/Programs/Python/Python312/Scripts/pyocd.exe",
+            "args": [
+                "gdbserver",
+                "--pack",
+                "${workspaceFolder}/../HDSC.HC32F460.1.0.12.pack",
+                "--target",
+                "hc32f460jeta",
+                "--frequency",
+                "1000000",
+                "--elf",
+                "${workspaceFolder}/build/Debug/mqttv5.elf"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

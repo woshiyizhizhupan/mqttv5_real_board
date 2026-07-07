@@ -1,0 +1,6 @@
+r
+halt
+loadfile "c:\Users\qiao\Desktop\mqttv5\eide\build\Debug\mqttv5.hex"
+r
+go
+exit

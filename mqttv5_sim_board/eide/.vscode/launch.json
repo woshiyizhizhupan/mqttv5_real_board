@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PyOCD ST-LINKV2 Debug (HC32F460JETA)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/mqttv5.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "pyocd",
+            "targetId": "hc32f460jeta",
+            "cmsisPack": "${workspaceFolder}/../HDSC.HC32F460.1.0.12.pack",
+            "serverArgs": [
+                "--frequency",
+                "1000000"
+            ],
+            "runToEntryPoint": "main",
+            "svdFile": "${workspaceFolder}/HC32F460.svd",
+            "preLaunchTask": "build"
+        },
+        {
+            "name": "J-Link Debug (existing config)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/mqttv5.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "device": "HC32F460",
+            "svdFile": "${workspaceFolder}/HC32F460.svd"
+        }
+    ]
+}

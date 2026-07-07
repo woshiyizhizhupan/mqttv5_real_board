@@ -1,0 +1,128 @@
+diff --git a/mqttv5_real_board/src/config.c b/mqttv5_real_board/src/config.c
+index 0000000..0000000 100644
+--- a/mqttv5_real_board/src/config.c
++++ b/mqttv5_real_board/src/config.c
+@@
+ #ifndef REAL_BOARD_DEFAULT_REQUEST_TOPIC_PREFIX
+ #define REAL_BOARD_DEFAULT_REQUEST_TOPIC_PREFIX "v1/devices/request/"
+ #endif
+ 
+-#ifndef REAL_BOARD_DEFAULT_RESPONSE_TOPIC_PREFIX
+-#define REAL_BOARD_DEFAULT_RESPONSE_TOPIC_PREFIX "v1/devices/response/"
++#ifndef REAL_BOARD_DEFAULT_TELEMETRY_TOPIC_PREFIX
++#define REAL_BOARD_DEFAULT_TELEMETRY_TOPIC_PREFIX "v1/devices/telemetry/"
++#endif
++
++#ifndef REAL_BOARD_DEFAULT_EVENT_TOPIC_PREFIX
++#define REAL_BOARD_DEFAULT_EVENT_TOPIC_PREFIX "v1/devices/event/"
++#endif
++
++#ifndef REAL_BOARD_DEFAULT_OTA_TOPIC_PREFIX
++#define REAL_BOARD_DEFAULT_OTA_TOPIC_PREFIX "v1/devices/ota/"
++#endif
++
++#ifndef REAL_BOARD_DEFAULT_DEBUG_TOPIC_PREFIX
++#define REAL_BOARD_DEFAULT_DEBUG_TOPIC_PREFIX "v1/devices/debug/"
+ #endif
+@@
+     .mqtt_server.topics = {
+-        "v1/devices/response/{device_name}",
++        "v1/devices/telemetry/{device_name}",
+         "v1/devices/request/{device_name}",
+-        "v1/devices/response/{device_name}",
+-        "v1/devices/request/{device_name}",
+-        "v1/devices/response/{device_name}",
++        "v1/devices/event/{device_name}",
++        "v1/devices/ota/{device_name}",
++        "v1/devices/debug/{device_name}",
+     },
+@@
+ void config_reset()
+ {
++    char telemetry_topic[MQTT_TOPIC_LEN];
+     char request_topic[MQTT_TOPIC_LEN];
+-    char response_topic[MQTT_TOPIC_LEN];
++    char event_topic[MQTT_TOPIC_LEN];
++    char ota_topic[MQTT_TOPIC_LEN];
++    char debug_topic[MQTT_TOPIC_LEN];
+@@
+-    snprintf(request_topic, sizeof(request_topic), "%s%s", REAL_BOARD_DEFAULT_REQUEST_TOPIC_PREFIX, system_config_temp.device_id);
+-    snprintf(response_topic, sizeof(response_topic), "%s%s", REAL_BOARD_DEFAULT_RESPONSE_TOPIC_PREFIX, system_config_temp.device_id);
++    snprintf(telemetry_topic, sizeof(telemetry_topic), "%s%s", REAL_BOARD_DEFAULT_TELEMETRY_TOPIC_PREFIX, system_config_temp.device_id);
++    snprintf(request_topic, sizeof(request_topic), "%s%s", REAL_BOARD_DEFAULT_REQUEST_TOPIC_PREFIX, system_config_temp.device_id);
++    snprintf(event_topic, sizeof(event_topic), "%s%s", REAL_BOARD_DEFAULT_EVENT_TOPIC_PREFIX, system_config_temp.device_id);
++    snprintf(ota_topic, sizeof(ota_topic), "%s%s", REAL_BOARD_DEFAULT_OTA_TOPIC_PREFIX, system_config_temp.device_id);
++    snprintf(debug_topic, sizeof(debug_topic), "%s%s", REAL_BOARD_DEFAULT_DEBUG_TOPIC_PREFIX, system_config_temp.device_id);
+     memset(system_config_temp.mqtt_server.topics[0], 0, MQTT_TOPIC_LEN);
+-    strcpy(system_config_temp.mqtt_server.topics[0], response_topic);
++    strcpy(system_config_temp.mqtt_server.topics[0], telemetry_topic);
+     memset(system_config_temp.mqtt_server.topics[1], 0, MQTT_TOPIC_LEN);
+     strcpy(system_config_temp.mqtt_server.topics[1], request_topic);
+     memset(system_config_temp.mqtt_server.topics[2], 0, MQTT_TOPIC_LEN);
+-    strcpy(system_config_temp.mqtt_server.topics[2], response_topic);
++    strcpy(system_config_temp.mqtt_server.topics[2], event_topic);
+     memset(system_config_temp.mqtt_server.topics[3], 0, MQTT_TOPIC_LEN);
+-    strcpy(system_config_temp.mqtt_server.topics[3], request_topic);
++    strcpy(system_config_temp.mqtt_server.topics[3], ota_topic);
+     memset(system_config_temp.mqtt_server.topics[4], 0, MQTT_TOPIC_LEN);
+-    strcpy(system_config_temp.mqtt_server.topics[4], response_topic);
++    strcpy(system_config_temp.mqtt_server.topics[4], debug_topic);
+     config_save(&system_config_temp);
+ }
+diff --git a/mqttv5_real_board/src/main.c b/mqttv5_real_board/src/main.c
+index 0000000..0000000 100644
+--- a/mqttv5_real_board/src/main.c
++++ b/mqttv5_real_board/src/main.c
+@@
+ static int mqtt_publish_response_json(const char *json, uint8_t qos_level)
+ {
+     return mqtt_publish_json_to_topic(mqtt_get_response_topic(), json, qos_level);
+ }
++
++static const char *mqtt_get_configured_topic(mqtt_topic_index_t topic_index)
++{
++    if (((uint8_t)topic_index < MQTT_TOPIC_COUNT) &&
++        (system_config->mqtt_server.topics[topic_index][0] != '\0'))
++        return system_config->mqtt_server.topics[topic_index];
++
++    return mqtt_get_response_topic();
++}
++
++static int mqtt_publish_index_json(mqtt_topic_index_t topic_index, const char *json)
++{
++    return mqtt_publish_json_to_topic(mqtt_get_configured_topic(topic_index),
++                                      json,
++                                      system_config->mqtt_server.qos[topic_index]);
++}
++
++static uint8_t mqtt_subscribe_configured_topic(mqtt_topic_index_t topic_index)
++{
++    return mqtt_subscribe((char *)mqtt_get_configured_topic(topic_index),
++                          system_config->mqtt_server.qos[topic_index]);
++}
+@@
+-    if (cJSON_PrintPreallocated(root, mqtt_json_buf, sizeof(mqtt_json_buf), 0))
+-        mqtt_publish_response_json(mqtt_json_buf, system_config->mqtt_server.qos[MQTT_TOPIC_EVENT_UP_INDEX]);
++    if (cJSON_PrintPreallocated(root, mqtt_json_buf, sizeof(mqtt_json_buf), 0))
++        mqtt_publish_index_json(MQTT_TOPIC_EVENT_UP_INDEX, mqtt_json_buf);
+@@
+-    if (cJSON_PrintPreallocated(root, mqtt_json_buf, sizeof(mqtt_json_buf), 0))
+-        mqtt_publish_response_json(mqtt_json_buf, system_config->mqtt_server.qos[MQTT_TOPIC_DEBUG_UP_INDEX]);
++    if (cJSON_PrintPreallocated(root, mqtt_json_buf, sizeof(mqtt_json_buf), 0))
++        mqtt_publish_index_json(MQTT_TOPIC_DEBUG_UP_INDEX, mqtt_json_buf);
+@@
+-    if (cJSON_PrintPreallocated(root, mqtt_json_buf, sizeof(mqtt_json_buf), 0))
+-        mqtt_publish_response_json(mqtt_json_buf, system_config->mqtt_server.qos[MQTT_TOPIC_TELEMETRY_UP_INDEX]);
++    if (cJSON_PrintPreallocated(root, mqtt_json_buf, sizeof(mqtt_json_buf), 0))
++        mqtt_publish_index_json(MQTT_TOPIC_TELEMETRY_UP_INDEX, mqtt_json_buf);
+@@
+-        mqtt_publish_response_json(mqtt_json_buf, system_config->mqtt_server.qos[MQTT_TOPIC_EVENT_UP_INDEX]);
++        mqtt_publish_index_json(MQTT_TOPIC_EVENT_UP_INDEX, mqtt_json_buf);
+@@
+-    mqtt_subscribe((char *)mqtt_get_request_topic(), system_config->mqtt_server.qos[MQTT_TOPIC_CMD_DOWN_INDEX]);
++    mqtt_subscribe_configured_topic(MQTT_TOPIC_CMD_DOWN_INDEX);
++    if (strcmp(mqtt_get_configured_topic(MQTT_TOPIC_OTA_INDEX),
++               mqtt_get_configured_topic(MQTT_TOPIC_CMD_DOWN_INDEX)) != 0)
++    {
++        mqtt_subscribe_configured_topic(MQTT_TOPIC_OTA_INDEX);
++    }

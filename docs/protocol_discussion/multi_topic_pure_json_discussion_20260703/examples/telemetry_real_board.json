@@ -1,0 +1,54 @@
+{
+  "schema": "emqx-gateway.realboard.telemetry.v1",
+  "device_id": "GM400-452089",
+  "firmware_version": "real-board-app1",
+  "business_mode": "real_board",
+  "meter_hlw8112": {
+    "valid": true,
+    "source": "real_driver",
+    "voltage_mv": 220000,
+    "current_ma": 1200,
+    "active_power_mw": 260000,
+    "reactive_power_mvar": 0,
+    "power_factor_x1000": 980,
+    "energy_one_wh": 12,
+    "energy_total_wh": 1024,
+    "pulse_count": 10
+  },
+  "environment": {
+    "valid": true,
+    "source": "real_driver",
+    "temperature_c_x10": 256,
+    "humidity_rh_x10": 635,
+    "pm25_ugm3": 18,
+    "co2_ppm": 520,
+    "illuminance_lux": 300
+  },
+  "rs485": {
+    "valid": true,
+    "online": true,
+    "device_count": 1,
+    "read_period_s": 30,
+    "last_response_ms": 32,
+    "tx_count": 100,
+    "rx_count": 99,
+    "error_count": 1
+  },
+  "lighting": {
+    "lamp1_brightness": 80,
+    "lamp2_brightness": 40,
+    "relay1_on": true,
+    "relay2_on": false,
+    "open_lamp_seconds": 3600,
+    "bright_time_seconds": 300,
+    "bright_time_total_seconds": 7200
+  },
+  "device": {
+    "address": 1,
+    "keepalive_s": 60,
+    "temperature_c_x10": 260,
+    "error_code": 0,
+    "error_renew": false,
+    "uptime_ticks": 123456
+  }
+}

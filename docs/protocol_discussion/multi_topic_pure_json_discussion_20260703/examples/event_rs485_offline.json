@@ -1,0 +1,16 @@
+{
+  "schema": "emqx-gateway.realboard.event.v1",
+  "device_id": "GM400-452089",
+  "firmware_version": "real-board-app1",
+  "business_mode": "real_board",
+  "event": "rs485_offline",
+  "level": "warn",
+  "uptime_ticks": 123456,
+  "data": {
+    "meter_hlw8112_valid": true,
+    "environment_valid": true,
+    "rs485_valid": false,
+    "rs485_online": false,
+    "error_code": 12
+  }
+}

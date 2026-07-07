@@ -1,0 +1,16 @@
+{
+  "schema": "emqx-gateway.response.v1",
+  "id": "light-20260703-0001",
+  "device_id": "GM400-452089",
+  "cmd": "set_lighting",
+  "ok": true,
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "business_mode": "real_board",
+    "lamp1_brightness": 80,
+    "lamp2_brightness": 40,
+    "relay1_on": true,
+    "relay2_on": false
+  }
+}

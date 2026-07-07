@@ -1,0 +1,17 @@
+{
+  "schema": "emqx-gateway.command.v1",
+  "id": "cfg-20260703-0001",
+  "device_id": "GM400-452089",
+  "cmd": "set_config",
+  "params": {
+    "topics": [
+      "v1/devices/telemetry/GM400-452089",
+      "v1/devices/request/GM400-452089",
+      "v1/devices/event/GM400-452089",
+      "v1/devices/ota/GM400-452089",
+      "v1/devices/debug/GM400-452089"
+    ],
+    "qos": [1, 1, 1, 1, 0],
+    "reboot": true
+  }
+}

@@ -1,0 +1,39 @@
+# Local IDE files
+.vs/
+*.user
+*.suo
+*.tmp
+*.TMP
+*.bak
+
+# .NET build output
+**/bin/
+**/obj/
+
+# Python local environments and caches
+**/.venv/
+**/__pycache__/
+*.pyc
+
+# Firmware build output
+**/eide/build/LocalEMQX/
+**/eide/build/**/.obj/
+**/eide/build/**/.lock
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+*.dep
+
+# Private keys and credentials
+aliyun_mqtt_private/
+**/secrets/
+mqttv5_real_board/src/real_board_tls_certs.c
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519

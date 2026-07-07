@@ -1,0 +1,7 @@
+{
+  "schema": "emqx-gateway.command.v1",
+  "id": "ping-20260703-0001",
+  "device_id": "GM400-452089",
+  "cmd": "ping",
+  "params": {}
+}

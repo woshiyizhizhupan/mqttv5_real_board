@@ -1,0 +1,12 @@
+{
+  "schema": "emqx-gateway.command.v1",
+  "id": "light-20260703-0001",
+  "device_id": "GM400-452089",
+  "cmd": "set_lighting",
+  "params": {
+    "lamp1_brightness": 80,
+    "lamp2_brightness": 40,
+    "relay1_on": true,
+    "relay2_on": false
+  }
+}

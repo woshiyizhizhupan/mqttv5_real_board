@@ -1,0 +1,10 @@
+{
+  "schema": "emqx-gateway.command.v1",
+  "id": "ota-20260703-0002",
+  "device_id": "GM400-452089",
+  "cmd": "ota_chunk",
+  "params": {
+    "index": 0,
+    "data_b64": "BASE64_512_BYTES"
+  }
+}

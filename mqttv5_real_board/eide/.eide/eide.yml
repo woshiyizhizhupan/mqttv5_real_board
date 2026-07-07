@@ -1,0 +1,125 @@
+version: "4.1"
+name: mqttv5
+type: ARM
+deviceName: null
+packDir: null
+srcDirs:
+  - ../driver
+  - ../ldscripts
+  - ../libraries
+  - ../src
+  - ../mqtt
+  - ../mbedtls
+  - ../ioLibrary_Driver-3.2.0
+  - ../modbus
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: 86c680a4d0bf9170df316041bcbeaf75
+targets:
+  Debug:
+    cppPreprocessAttrs:
+      defineList:
+        - HC32F460
+        - MQTTV5
+      incList:
+        - ../src
+        - ../libraries/core
+        - ../libraries/device
+        - ../libraries/hc32_ll_driver/inc
+        - ../driver
+        - ../mqtt/MQTTPacket/src/V3
+        - ../mqtt/MQTTPacket/src/V5
+        - ../mqtt/MQTTPacket/src
+        - ../mbedtls/library
+        - ../mbedtls/include
+        - ../ioLibrary_Driver-3.2.0/Ethernet
+        - ../ioLibrary_Driver-3.2.0/Internet/DHCP
+        - ../ioLibrary_Driver-3.2.0/Internet/DNS
+        - ../modbus
+      libList: []
+    excludeList:
+      - cortex_debug/riscv/target.c
+      - ../cherryusb/class/adb
+      - ../cherryusb/class/aoa
+      - ../cherryusb/class/audio
+      - ../cherryusb/class/midi
+      - ../cherryusb/class/template
+      - ../cherryusb/class/vendor
+      - ../cherryusb/class/video
+      - ../cherryusb/class/wireless
+      - ../cherryusb/port/aic
+      - ../cherryusb/port/bouffalolab
+      - ../cherryusb/port/ch32
+      - ../cherryusb/port/chipidea
+      - ../cherryusb/port/ehci
+      - ../cherryusb/port/fsdev
+      - ../cherryusb/port/hpm
+      - ../cherryusb/port/kinetis
+      - ../cherryusb/port/musb
+      - ../cherryusb/port/nuvoton
+      - ../cherryusb/port/ohci
+      - ../cherryusb/port/pusb2
+      - ../cherryusb/port/rp2040
+      - ../cherryusb/port/template
+      - ../cherryusb/port/xhci
+      - ../cherryusb/port/dwc2/usb_glue_esp.c
+      - ../cherryusb/port/dwc2/usb_glue_gd.c
+      - ../cherryusb/port/dwc2/usb_glue_at.c
+      - ../cherryusb/port/dwc2/usb_glue_st.c
+      - ../cherryusb/port/dwc2/usb_glue_kendryte.c
+      - ../mqtt/MQTTPacket/test
+      - ../mqtt/MQTTPacket/test.c
+      - ../ioLibrary_Driver-3.2.0/Internet/MQTT
+      - ../mqtt/MQTTPacket/samples
+      - ../libraries/device/startup_hc32f460_armcc.s
+    settings:
+      debugger: cortex-debug
+    toolchain: GCC
+    toolchainConfigMap:
+      GCC:
+        archExtensions: ""
+        cpuType: Cortex-M4
+        floatingPointHardware: none
+        options:
+          version: 5
+          afterBuildTasks: []
+          asm-compiler: {}
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            language-c: c11
+            language-cpp: c++11
+            one-elf-section-per-data: true
+            one-elf-section-per-function: true
+            optimization: level-1
+            warnings: all-warnings
+          global:
+            $float-abi-type: softfp
+            arm-thumb-mode: thumb
+            not-use-syscalls: true
+            output-debug-info: enable
+            use-newlib-nano: true
+          linker:
+            $toolName: auto
+            output-format: elf
+            remove-unused-input-sections: true
+        scatterFilePath: ..\ldscripts\hc32f460.lds
+        storageLayout:
+          RAM: []
+          ROM: []
+        useCustomScatterFile: true
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: HC32F460
+          vendor: HC
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+    uploader: JLink
