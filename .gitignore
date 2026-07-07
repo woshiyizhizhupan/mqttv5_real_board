@@ -5,10 +5,18 @@
 *.tmp
 *.TMP
 *.bak
+*.uvguix.*
+JLinkLog.txt
+JLinkSettings.ini
 
 # .NET build output
 **/bin/
 **/obj/
+
+# Logs and generated runtime traces
+**/logs/
+*.log
+*.jsonl
 
 # Python local environments and caches
 **/.venv/
